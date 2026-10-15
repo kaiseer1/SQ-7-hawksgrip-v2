@@ -1,0 +1,21 @@
+# Sector 1 in a Shamal: 800 m visibility, a raid of 16 drones among 20 birds.
+# Kindah switches her eyes to LWIR; birds must be told apart from drones.
+
+[scenario]
+name = "shamal_birds"
+seed = 31
+duration_s = 360.0
+
+[[scenario.raids]]
+at_s = 5.0
+count = 16
+
+[sim.terrain]
+sector = "eastern_sabkha"
+
+[sim.environment]
+visibility_m = 800.0
+
+[[scenario.birds]]
+at_s = 0.0
+count = 20
