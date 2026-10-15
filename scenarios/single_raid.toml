@@ -1,0 +1,12 @@
+# Phase-1 smoke scenario: one undefended raid of six threats.
+# Interception is not built yet (Phase 6), so every threat is expected to
+# breach. This scenario exists to exercise the loop, events and replay.
+
+[scenario]
+name = "single_raid"
+seed = 2026
+duration_s = 240.0
+
+[[scenario.raids]]
+at_s = 2.0
+count = 6

@@ -1,0 +1,36 @@
+{
+  "machine": {
+    "cpu": "Intel64 Family 6 Model 151 Stepping 5, GenuineIntel",
+    "threads": 12,
+    "python": "3.12.10"
+  },
+  "core_version": "0.2.0",
+  "cpu": {
+    "noop_call_ns": 30.9735,
+    "step1_0thr_us": 0.9289900000000001,
+    "tick_in_batch120_0thr_us": 0.7863166666666667,
+    "realtime_factor_0thr": 10597.935522160282,
+    "step1_64thr_us": 6.39823,
+    "tick_in_batch120_64thr_us": 6.349858333333334,
+    "realtime_factor_64thr": 1312.3652364947775,
+    "step1_64thr_rayon_us": 16.13544,
+    "snapshot_into_us": 0.328275,
+    "positions_alloc_us": 0.18793,
+    "frame_refresh_us": 0.56052,
+    "batch_48x30s_seconds": {
+      "1": 0.6142334000032861,
+      "6": 0.15178949999972247,
+      "12": 0.09609189999900991
+    },
+    "batch_speedup_6_vs_1": 4.046613237440067,
+    "batch_speedup_12_vs_1": 6.392145435875603,
+    "batch_sim_seconds_per_wall_second_12thr": 14985.65435811798
+  },
+  "gpu": {
+    "device": "NVIDIA GeForce RTX 3070",
+    "round_trip_72x3_us": 59.28515,
+    "launch_plus_sync_us": 23.41102,
+    "dense_98k_rays_x256_ms": 1.878214,
+    "dense_rays_per_second": 52339083.83176784
+  }
+}
