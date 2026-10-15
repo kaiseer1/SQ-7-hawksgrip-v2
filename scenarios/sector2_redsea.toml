@@ -1,0 +1,15 @@
+# Sector 2 - Western Red Sea Corridor. Coastal plain under a steep escarpment cut by canyons: threats drop off the escarpment through the wadis.
+# No interception yet (Phase 6): every threat is expected to breach.
+
+[scenario]
+name = "sector2_redsea"
+seed = 12
+duration_s = 360.0
+
+[[scenario.raids]]
+at_s = 2.0
+count = 16
+
+[sim.terrain]
+sector = "red_sea_corridor"
+seed = 1

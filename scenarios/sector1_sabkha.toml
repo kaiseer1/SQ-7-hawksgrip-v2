@@ -1,0 +1,15 @@
+# Sector 1 - Eastern Coastal Sabkha. Flat coastal plain with the Gulf to the east: a low marine approach with nowhere to hide and nothing to see from but the sky.
+# No interception yet (Phase 6): every threat is expected to breach.
+
+[scenario]
+name = "sector1_sabkha"
+seed = 11
+duration_s = 360.0
+
+[[scenario.raids]]
+at_s = 2.0
+count = 16
+
+[sim.terrain]
+sector = "eastern_sabkha"
+seed = 1

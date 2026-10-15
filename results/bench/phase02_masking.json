@@ -1,0 +1,28 @@
+{
+  "agl_m": 30.0,
+  "orbit_positions": 36,
+  "grid_step_m": 125.0,
+  "sectors": {
+    "eastern_sabkha": {
+      "rays": 509796,
+      "cpu_seconds": 0.03032770000572782,
+      "area_hidden_from_some_of_orbit": 0.0,
+      "area_hidden_from_half_or_more": 0.0,
+      "area_hidden_from_entire_orbit": 0.0
+    },
+    "red_sea_corridor": {
+      "rays": 509796,
+      "cpu_seconds": 0.09723379999923054,
+      "area_hidden_from_some_of_orbit": 0.11420289855072464,
+      "area_hidden_from_half_or_more": 0.050144927536231884,
+      "area_hidden_from_entire_orbit": 0.014057971014492753
+    },
+    "highland_wadi": {
+      "rays": 509796,
+      "cpu_seconds": 0.1133341000022483,
+      "area_hidden_from_some_of_orbit": 0.49326086956521736,
+      "area_hidden_from_half_or_more": 0.1777536231884058,
+      "area_hidden_from_entire_orbit": 0.031159420289855074
+    }
+  }
+}

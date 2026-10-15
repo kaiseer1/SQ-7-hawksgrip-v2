@@ -1,0 +1,65 @@
+{
+  "rays": 100000,
+  "sectors": {
+    "eastern_sabkha": {
+      "generate_and_build_world_s": 0.038531400001375005,
+      "lipschitz": 0.2690073450654038,
+      "height_range_m": [
+        0.0,
+        21.48268699645996
+      ],
+      "cpu_single_ray_us": 2.019350002228748,
+      "cpu_batch_rays_per_s": 18012176.22843761,
+      "visible_fraction": 1.0,
+      "gpu_bruteforce_rays_per_s": 367181.3325043109,
+      "gpu_bruteforce_agreement": 1.0,
+      "gpu_rays_per_s": 6889519.662189682,
+      "gpu_iterations": 16,
+      "gpu_unresolved": 0,
+      "gpu_vram_terrain_mib": 8.59451675415039,
+      "gpu_cpu_agreement": 1.0,
+      "gpu_blocked_cpu_visible": 0,
+      "gpu_visible_cpu_blocked": 0
+    },
+    "red_sea_corridor": {
+      "generate_and_build_world_s": 0.0906570000006468,
+      "lipschitz": 2.025348031341971,
+      "height_range_m": [
+        0.0,
+        1847.2877197265625
+      ],
+      "cpu_single_ray_us": 3.410900000744732,
+      "cpu_batch_rays_per_s": 7681081.49735631,
+      "visible_fraction": 0.98469,
+      "gpu_bruteforce_rays_per_s": 367383.27223134344,
+      "gpu_bruteforce_agreement": 0.99988,
+      "gpu_rays_per_s": 297320.84189313033,
+      "gpu_iterations": 392,
+      "gpu_unresolved": 0,
+      "gpu_vram_terrain_mib": 8.59451675415039,
+      "gpu_cpu_agreement": 1.0,
+      "gpu_blocked_cpu_visible": 0,
+      "gpu_visible_cpu_blocked": 0
+    },
+    "highland_wadi": {
+      "generate_and_build_world_s": 0.09451210000406718,
+      "lipschitz": 2.0997871572411895,
+      "height_range_m": [
+        1350.0,
+        2348.264404296875
+      ],
+      "cpu_single_ray_us": 3.748499999346677,
+      "cpu_batch_rays_per_s": 6261976.030798437,
+      "visible_fraction": 0.94048,
+      "gpu_bruteforce_rays_per_s": 367815.9566663338,
+      "gpu_bruteforce_agreement": 0.99961,
+      "gpu_rays_per_s": 140038.82156101117,
+      "gpu_iterations": 760,
+      "gpu_unresolved": 0,
+      "gpu_vram_terrain_mib": 8.59451675415039,
+      "gpu_cpu_agreement": 0.99997,
+      "gpu_blocked_cpu_visible": 0,
+      "gpu_visible_cpu_blocked": 3
+    }
+  }
+}

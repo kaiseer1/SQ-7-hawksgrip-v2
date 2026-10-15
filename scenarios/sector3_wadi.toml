@@ -1,0 +1,15 @@
+# Sector 3 - Highland Escarpment and Wadis. Refinery in a basin ringed by plateau; deep sinuous wadis offer terrain masking.
+# No interception yet (Phase 6): every threat is expected to breach.
+
+[scenario]
+name = "sector3_wadi"
+seed = 13
+duration_s = 360.0
+
+[[scenario.raids]]
+at_s = 2.0
+count = 16
+
+[sim.terrain]
+sector = "highland_wadi"
+seed = 1
