@@ -1,0 +1,27 @@
+[build-system]
+requires = ["maturin>=1.7,<2"]
+build-backend = "maturin"
+
+[project]
+name = "hawksgrip"
+version = "0.2.0"
+description = "SQ-7 Hawksgrip: Critical Infrastructure Protection simulation framework (Rust core + Python/CUDA)"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Basil Abdullah Alzahrani" }]
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26"]
+
+[project.optional-dependencies]
+gpu = ["torch>=2.3"]
+dev = ["pytest>=8"]
+
+[tool.maturin]
+manifest-path = "crates/hawksgrip-py/Cargo.toml"
+python-source = "python"
+module-name = "hawksgrip._core"
+features = ["pyo3/extension-module"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

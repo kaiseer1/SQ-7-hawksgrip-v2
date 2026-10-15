@@ -1,0 +1,3 @@
+# Leave half of the CPU free so the machine stays usable during builds.
+[build]
+jobs = 6

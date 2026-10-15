@@ -1,0 +1,5 @@
+# Developed and verified with rustc 1.99.0 (see docs/adr/0005-repository-layout.md).
+[toolchain]
+channel = "stable"
+components = ["clippy", "rustfmt"]
+profile = "minimal"

@@ -1,0 +1,28 @@
+[workspace]
+resolver = "3"
+members = ["crates/hawksgrip-core", "crates/hawksgrip-py"]
+
+[workspace.package]
+version = "0.2.0"
+edition = "2024"
+license = "Apache-2.0"
+authors = ["Basil Abdullah Alzahrani"]
+rust-version = "1.85"
+
+[workspace.dependencies]
+hawksgrip-core = { path = "crates/hawksgrip-core" }
+rayon = "1.12"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+pyo3 = "0.29"
+numpy = "0.29"
+criterion = { version = "0.8", default-features = false }
+
+[profile.release]
+opt-level = 3
+lto = "thin"
+codegen-units = 1
+# Never enable fast-math style flags: determinism depends on strict IEEE-754.
+
+[profile.bench]
+inherits = "release"

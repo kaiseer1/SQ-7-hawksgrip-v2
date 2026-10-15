@@ -1,0 +1,5 @@
+# Hawksgrip v0.1 Dependencies
+# Core (no external dependencies - uses only Python stdlib)
+
+# Optional - for visualization
+pygame>=2.0.0
