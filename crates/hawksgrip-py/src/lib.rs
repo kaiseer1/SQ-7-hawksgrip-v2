@@ -7,11 +7,14 @@
 //! - Per-frame state leaves through `snapshot_into()` into numpy buffers the
 //!   caller allocated once. No per-frame allocation, no aliasing of Rust memory.
 
+use hawksgrip_core::kinematics::guidance::station_slot;
+use hawksgrip_core::persona::{Ctx as PersonaCtx, Mode, RoyalPersonaEngine};
 use hawksgrip_core::sensing::coverage::{ArrayView, coverage};
 use hawksgrip_core::sensing::eyes::Task;
 use hawksgrip_core::sensing::optics::Band;
 use hawksgrip_core::sim::batch::run_batch as core_run_batch;
 use hawksgrip_core::sim::world::{FIRST_SEVEN, FIRST_THREAT, QUEEN};
+use hawksgrip_core::telemetry::{Event, EventKind};
 use hawksgrip_core::terrain::Heightfield;
 use hawksgrip_core::{Input, Replay, SEVEN, SimConfig, Vec3, World};
 use numpy::ndarray::Array2;
@@ -134,6 +137,15 @@ impl Session {
     fn active_mask<'py>(&self, py: Python<'py>) -> Bound<'py, PyArray1<bool>> {
         let v: Vec<bool> = (0..self.world.n_entities())
             .map(|i| self.world.is_active(i))
+            .collect();
+        PyArray1::from_vec(py, v)
+    }
+
+    /// Ground-truth class per slot: -1 none (empty, Queen, Seven), 0 drone, 1 bird.
+    /// For the showroom's "truth" layer; Kindah's own view is `tracks()`.
+    fn object_classes<'py>(&self, py: Python<'py>) -> Bound<'py, PyArray1<i8>> {
+        let v: Vec<i8> = (0..self.world.n_entities())
+            .map(|i| self.world.object_class(i).map_or(-1, |c| c as i8))
             .collect();
         PyArray1::from_vec(py, v)
     }
@@ -555,6 +567,92 @@ fn json_to_py<'py>(py: Python<'py>, json: &str) -> PyResult<Bound<'py, PyAny>> {
     py.import("json")?.getattr("loads")?.call1((json,))
 }
 
+fn parse_mode(m: &str) -> PyResult<Mode> {
+    match m {
+        "theatrical" => Ok(Mode::Theatrical),
+        "clinical" => Ok(Mode::Clinical),
+        _ => Err(verr(format!(
+            "mode must be 'theatrical' or 'clinical', got {m:?}"
+        ))),
+    }
+}
+
+/// Kindah's voice ([T] toggles theatrical/clinical). It only reads events
+/// and never touches the simulation (persona invariance, tests/persona.rs).
+#[pyclass(module = "hawksgrip._core", name = "PersonaEngine")]
+pub struct PersonaEngine {
+    inner: RoyalPersonaEngine,
+}
+
+#[pymethods]
+impl PersonaEngine {
+    #[new]
+    #[pyo3(signature = (seed=0, tick_hz=120, mode="theatrical"))]
+    fn new(seed: u64, tick_hz: u32, mode: &str) -> PyResult<Self> {
+        Ok(Self {
+            inner: RoyalPersonaEngine::new(seed, tick_hz, parse_mode(mode)?),
+        })
+    }
+
+    #[getter]
+    fn mode(&self) -> &'static str {
+        self.inner.mode().name()
+    }
+
+    fn set_mode(&mut self, mode: &str) -> PyResult<()> {
+        self.inner.set_mode(parse_mode(mode)?);
+        Ok(())
+    }
+
+    fn toggle(&mut self) -> &'static str {
+        self.inner.toggle().name()
+    }
+
+    /// Voice drained events (tuples from `Session.drain_events`) plus the
+    /// time-driven lines due now. Returns (tick, speaker, kind, text) tuples.
+    #[allow(clippy::type_complexity)]
+    fn voice(
+        &mut self,
+        session: PyRef<'_, Session>,
+        events: Vec<(u64, String, Option<u32>, (f64, f64, f64))>,
+    ) -> Vec<(u64, String, String, String)> {
+        let w = &session.world;
+        let s = w.sensors();
+        let q = w.kin()[QUEEN];
+        let ctx = PersonaCtx {
+            queen: q.p,
+            band: s.band().name(),
+            visibility_m: s.optics().visibility_m,
+        };
+        let mut out = Vec::new();
+        for (tick, kind, ent, d) in events {
+            let Some(kind) = EventKind::from_name(&kind) else {
+                continue;
+            };
+            let e = Event {
+                tick,
+                kind,
+                entity: ent.unwrap_or(u32::MAX),
+                data: [d.0, d.1, d.2],
+            };
+            if let Some(l) = self.inner.on_event(&e, &ctx) {
+                out.push((l.tick, l.speaker, l.kind.to_string(), l.text));
+            }
+        }
+        let c = &w.config().seven;
+        let mut err = [0.0; 7];
+        for (k, e) in err.iter_mut().enumerate() {
+            let slot = station_slot(&q, k, SEVEN, c.station_radius_m, c.station_below_m);
+            *e = (w.kin()[FIRST_SEVEN + k].p - slot.p).norm();
+        }
+        let sweeping = s.eyes().iter().filter(|e| e.task == Task::Sweep).count();
+        for l in self.inner.tick(w.clock().tick(), &ctx, sweeping, &err) {
+            out.push((l.tick, l.speaker, l.kind.to_string(), l.text));
+        }
+        out
+    }
+}
+
 /// Rust defaults as JSON: the single source of truth for configuration.
 #[pyfunction]
 fn default_config_json() -> String {
@@ -620,6 +718,7 @@ fn noop() {}
 #[pymodule]
 fn _core(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<Session>()?;
+    m.add_class::<PersonaEngine>()?;
     m.add_function(wrap_pyfunction!(default_config_json, m)?)?;
     m.add_function(wrap_pyfunction!(validate_config, m)?)?;
     m.add_function(wrap_pyfunction!(verify_replay, m)?)?;

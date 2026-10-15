@@ -94,3 +94,15 @@ cargo test --workspace --release
 ```bash
 .venv/Scripts/python -m hawksgrip.app --scenario scenarios/shamal_birds.toml
 ```
+
+## Addendum: showroom HMI and persona (2026-10-15)
+
+| Check | Result |
+|---|---|
+| Rust tests, release (incl. 6 persona unit tests, persona invariance, event-name round-trip) | **102 / 102** |
+| Golden fingerprint and persona invariance, debug build | pass (state hash unchanged by the showroom work) |
+| Python tests (incl. 11 HMI tests) | **65 / 65** |
+| HMI: drawn frustums vs engine detection frustums (20 000 random points) | ≥ 99.95 % agreement |
+| HMI: live window smoke test | renders a non-blank 960 × 540 frame; `T`, `S`, `R`, `K`, `G`, `C`, `Space` and Shift+click behave as specified |
+| Persona invariance through Python (voice toggled every 7 calls) | identical state hash |
+| Showroom frame rate, 10 drones + 12 birds (+ GPU layer, + Shamal) | median 5.5 / 8.1 / 8.8 ms, p95 11.0 / 14.1 / 13.1 ms; ~3.5 % of frames (the 2 Hz HUD refresh) over 16.7 ms |

@@ -16,4 +16,5 @@ Status values: **Accepted**, **Superseded by ADR-NNNN**, **Proposed**.
 | [0008](0008-planning-redteam-requirements.md) | Planning-phase Red-Team fixes are binding requirements for Phases 4, 5, 7 | Accepted |
 | [0009](0009-terrain-generation.md) | Terrain generated in Rust from (sector, terrain seed); shared via Arc; DEM loader in Python | Accepted |
 | [0010](0010-lipschitz-line-of-sight.md) | Line-of-sight by Lipschitz ray-marching, with soundness proof | Accepted |
+| [0012](0012-showroom-and-persona.md) | Showroom HMI (PySide6 + pyqtgraph, truth vs belief layers, honest HUD) and persona engine outside the world (invariance proven) | Accepted |
 | [0011](0011-compound-optical-array.md) | Kindah's 24-eye array: guaranteed sweep, EO physics, biased classifier + decisive second look, sentinel/TDM allocation, Kalman tracks, GPU coverage | Accepted |

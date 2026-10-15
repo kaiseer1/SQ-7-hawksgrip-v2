@@ -16,6 +16,7 @@
 pub mod config;
 pub mod kinematics;
 pub mod math;
+pub mod persona;
 pub mod refinery;
 pub mod sensing;
 pub mod sim;

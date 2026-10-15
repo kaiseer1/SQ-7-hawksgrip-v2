@@ -24,7 +24,7 @@ procedural or public DEM data, and no real facility is modelled.
 | 1 | Deterministic core loop, kinematics, royal orbit, events, replay, batch | ✅ |
 | 2 | Three Saudi sectors, Lipschitz line-of-sight, refinery keep-out, terrain-following threats | ✅ |
 | 3 | Kindah's 24-eye array: guaranteed sweep, VIS/SWIR/LWIR physics, bird filter, "SHE LOOKS AT YOU", sentinels/TDM, Kalman tracks, GPU coverage | ✅ |
-| 4 – 9 | Energy, auction, engagement, HMI, evaluation, demo | see [docs/ROADMAP.md](docs/ROADMAP.md) |
+| HMI | 3D showroom for Phases 0–3: sightline cones, HUD, sandstorm/thermal, GPU coverage layer, `RoyalPersonaEngine` (theatrical/clinical) | ✅ |
 
 ## Build and run (Windows, RTX 3070 reference machine)
 
@@ -63,6 +63,26 @@ cargo test --workspace --release
 ```bash
 .venv/Scripts/python scripts/bench_bridge.py
 ```
+
+## Showroom
+
+![Showroom: SHE LOOKS AT YOU](results/figures/showroom_convergence.png)
+
+```bash
+.venv/Scripts/pip install pyside6 pyqtgraph PyOpenGL
+```
+
+```bash
+.venv/Scripts/python -m hawksgrip.hmi.showroom --sector highland_wadi --raid 6 --birds 12
+```
+
+Controls: `T` theatrical/clinical voice · `S` Shamal sandstorm · `R` raid of 4 ·
+`Shift+click` launch a drone from that direction · `B` birds · `K` keep-out
+volumes · `G` GPU coverage layer · `C` camera · `Space` pause · `+`/`-` time ·
+`H` help. Solid markers are ground truth; rings are Kindah's tracks.
+More views: [Shamal thermal](results/figures/showroom_shamal_thermal.png) ·
+[GPU coverage](results/figures/showroom_gpu_coverage.png) ·
+[clinical, follow camera](results/figures/showroom_clinical_follow.png).
 
 ## Documentation
 

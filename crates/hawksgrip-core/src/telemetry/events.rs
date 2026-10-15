@@ -34,6 +34,34 @@ pub enum EventKind {
 }
 
 impl EventKind {
+    pub const ALL: [EventKind; 20] = [
+        EventKind::ThreatSpawned,
+        EventKind::SpawnRejected,
+        EventKind::RefineryBreach,
+        EventKind::ThreatOutOfBounds,
+        EventKind::GroundImpact,
+        EventKind::WaypointReached,
+        EventKind::OrderAccepted,
+        EventKind::OrderRejected,
+        EventKind::Detected,
+        EventKind::TrackConfirmed,
+        EventKind::TrackClassified,
+        EventKind::Convergence,
+        EventKind::EyesLocked,
+        EventKind::TrackLost,
+        EventKind::TrackReacquired,
+        EventKind::BandSwitch,
+        EventKind::TrackDropped,
+        EventKind::TrackReexamined,
+        EventKind::BirdsSpawned,
+        EventKind::VisibilityChanged,
+    ];
+
+    /// Inverse of `name()` (for events that crossed into Python and back).
+    pub fn from_name(s: &str) -> Option<EventKind> {
+        EventKind::ALL.into_iter().find(|k| k.name() == s)
+    }
+
     pub fn name(self) -> &'static str {
         match self {
             EventKind::ThreatSpawned => "THREAT_SPAWNED",
@@ -130,6 +158,14 @@ mod tests {
             entity: 0,
             data: [0.0; 3],
         }
+    }
+
+    #[test]
+    fn names_round_trip() {
+        for k in EventKind::ALL {
+            assert_eq!(EventKind::from_name(k.name()), Some(k));
+        }
+        assert_eq!(EventKind::from_name("NOPE"), None);
     }
 
     #[test]
